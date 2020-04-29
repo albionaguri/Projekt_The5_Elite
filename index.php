@@ -1,3 +1,4 @@
+<?php include('ASP_login.php'); ?>
 <html>
 <head>
 
@@ -14,7 +15,9 @@
   <html>
 <head>
  <title>Login Page</title>
-
+<?php echo ErrorMessage();
+      echo SuccessMessage();
+?>
 
  <!--Bootsrap 4 CDN-->
  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -36,19 +39,19 @@
 
      </div>
      <div class="card-body">
-       <form method="POST" action="ASP_login.php">
+       <form method="POST" action="index.php">
          <div class="input-group form-group">
            <div class="input-group-prepend">
              <span class="input-group-text"><i class="fas fa-user"></i></span>
            </div>
-           <input type="text" name = "username" class="form-control" placeholder="username">
+           <input type="text" name = "username" class="form-control" required = "required" placeholder="username">
 
          </div>
          <div class="input-group form-group">
            <div class="input-group-prepend">
              <span class="input-group-text"><i class="fas fa-key"></i></span>
            </div>
-           <input type="password" name="password" class="form-control" placeholder="password">
+           <input type="password" name="password" class="form-control" required = "required" placeholder="password">
          </div>
 
          <div class="form-group">
