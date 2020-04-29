@@ -1,6 +1,5 @@
-<?php session_start();?>
-<?php error_reporting(0); ?>
 <?php include('includes/config.php'); ?>
+<?php include('includes/sessions.php'); ?>
 
 
 <?php
@@ -8,40 +7,45 @@
 
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $Role = $_POST['role'];
+        $role = $_POST['role'];
 
+        if (empty($username) || empty($password)){
+            $_SESSION["ErrorMessage"] = "All fields must be filled out!";
+        }
+        else{
         $query = "SELECT * FROM admin WHERE UserName='$username' AND
-                Password='$password'  AND role = '$Role'";
+                Password='$password'  AND
+                 role = '$role'";
 
         $result  = mysqli_query($con, $query);
+        $check_login_query = mysqli_num_rows($result);
 
+        if($check_login_query == 1){
+          $row = mysqli_fetch_array($result);
+          $username = $row['UserName'];
+          $password= $row["Password"];
+          $role = $row["role"];
 
-       $row = mysqli_fetch_array($result);
-         if($row['UserName'] == $username &&
-            $row['Password'] == $password &&
-            $row['role'] == 'Admin'){
-              header('location:dashboard.php');
+           if($role == "Admin"){
+             $_SESSION['username'] = $username;
+             $_SESSION['password'] = $password;
+             header("location: dashboard.php");
+           }
 
-            } elseif($row['UserName'] == $username &&
-               $row['Password'] == $password &&
-               $row['role'] == 'Student'){
-                 header('location:student_profile.php');
-
-              }elseif($row['UserName'] == $username &&
-                 $row['Password'] == $password &&
-                 $row['role'] == 'Teacher'){
-                   header('location:teacher_profile.php');
-              }
-            else {
-               ?>
-         <script>
-             alert('username or password invalid');
-             window.open('ASP_login.php','_self');
-         </script>
-         <?php
-                 }
+           else if($role == "Student"){
+             $_SESSION["username"] = $username;
+             $_SESSION['password'] = $password;
+             header("location: student_profile.php");
+           }
+           else if($role == "Teacher"){
+             $_SESSION["username"] = $username;
+             $_SESSION['password'] = $password;
+             header("location: teacher_profile.php");
+           }
+         }
+       else{
+           $_SESSION["ErrorMessage"] = "Incorrect username or password!";
        }
-
-
-
+   }
+}
 ?>
