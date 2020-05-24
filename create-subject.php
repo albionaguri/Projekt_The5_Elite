@@ -1,29 +1,5 @@
-<?php
-session_start();
-error_reporting(0);
-include('includes/config.php');
+<<?php include('crt-subjPHP.php'); ?>
 
-if(isset($_POST['submit']))
-{
-$subjectname=$_POST['subjectname'];
-$subjectcode=$_POST['subjectcode'];
-
-$query="INSERT INTO  tblsubjects(SubjectName,SubjectCode)
-      VALUES(?,?)";
-$result = mysqli_prepare($con, $query);
-if($result){
-  mysqli_stmt_bind_param($result,"ss",$subjectname,$subjectcode);
-  mysqli_stmt_execute($result);
-  $lastInsertId = mysqli_insert_id($con);
-  $msg="Subject Created successfully";
-}
-else
-{
-$error="Something went wrong. Please try again";
-}
-}
-?>
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -42,7 +18,7 @@ $error="Something went wrong. Please try again";
     <body class="top-navbar-fixed">
         <div class="main-wrapper">
 
-            <!-- ========== TOP NAVBAR ========== -->
+
   <?php include('includes/topbar.php');?>
             <!-- ========== WRAPPER FOR BOTH SIDEBARS & MAIN CONTENT ========== -->
             <div class="content-wrapper">
@@ -58,6 +34,7 @@ $error="Something went wrong. Please try again";
                             <div class="row page-title-div">
                                 <div class="col-md-6">
                                     <h2 class="title">Subject Creation</h2>
+                                    <?php  echo ErrorMessage(); ?>
 
                                 </div>
 
@@ -77,7 +54,6 @@ $error="Something went wrong. Please try again";
                             <!-- /.row -->
                         </div>
                         <div class="container-fluid">
-
                         <div class="row">
                                     <div class="col-md-12">
                                         <div class="panel">
