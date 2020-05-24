@@ -1,29 +1,4 @@
-<?php
-session_start();
-error_reporting(0);
-include('includes/config.php');
-
-if(isset($_POST['submit']))
-{
-  $classname=$_POST['classname'];
-  $classnamenumeric=$_POST['classnamenumeric'];
-  $section=$_POST['section'];
-  $sql="INSERT INTO  tblclasses(ClassName,ClassNameNumeric,Section)
-  VALUES(?,?,?)";
-  $result = mysqli_prepare($con, $sql);
-  if($result){
-    mysqli_stmt_bind_param($result,"sis",$classname,$classnamenumeric,$section);
-    mysqli_stmt_execute($result);
-    $lastInsertId = mysqli_insert_id($con);
-    $msg="Class Created successfully";
-  }
-  else
-  {
-    $error="Something went wrong. Please try again";
-  }
-}
-?>
-<!DOCTYPE html>
+<?php include('crt-classPHP.php'); ?>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -34,7 +9,7 @@ if(isset($_POST['submit']))
   <link rel="stylesheet" href="css/font-awesome.min.css" media="screen" >
   <link rel="stylesheet" href="css/animate-css/animate.min.css" media="screen" >
   <link rel="stylesheet" href="css/lobipanel/lobipanel.min.css" media="screen" >
-  <link rel="stylesheet" href="css/prism/prism.css" media="screen" > <!-- USED FOR DEMO HELP - YOU CAN REMOVE IT -->
+  <link rel="stylesheet" href="css/prism/prism.css" media="screen" >
   <link rel="stylesheet" href="css/main.css" media="screen" >
   <script src="js/modernizr/modernizr.min.js"></script>
   <style>
@@ -97,7 +72,7 @@ if(isset($_POST['submit']))
             <div class="container-fluid">
 
 
-
+              <?php echo ErrorMessage(); ?>
 
 
               <div class="row">
@@ -117,28 +92,27 @@ if(isset($_POST['submit']))
                           <strong>Oh snap!</strong> <?php echo htmlentities($error); ?>
                         </div>
                       <?php } ?>
-
+                      <?php echo ErrorMessage(); ?>
                       <div class="panel-body">
-
-                        <form method="post">
+                        <form method="post" action = create-class.php >
                           <div class="form-group has-success">
                             <label for="success" class="control-label">Class Name</label>
                             <div class="">
-                              <input type="text" name="classname" class="form-control" required="required" id="success">
-                              <span class="help-block">Eg- Third, Fouth,Sixth etc</span>
+                              <input type="text" name="classname" class="form-control"  id="success">
+                              <span class="help-block">Eg- Group, Class, Paraleli</span>
                             </div>
                           </div>
                           <div class="form-group has-success">
                             <label for="success" class="control-label">Class Name in Numeric</label>
                             <div class="">
-                              <input type="number" name="classnamenumeric" required="required" class="form-control" id="success">
+                              <input type="number" name="classnamenumeric"  class="form-control" id="success">
                               <span class="help-block">Eg- 1,2,4,5 etc</span>
                             </div>
                           </div>
                           <div class="form-group has-success">
                             <label for="success" class="control-label">Section</label>
                             <div class="">
-                              <input type="text" name="section" class="form-control" required="required" id="success">
+                              <input type="text" name="section" class="form-control"  id="success">
                               <span class="help-block">Eg- A,B,C etc</span>
                             </div>
                           </div>
@@ -179,7 +153,6 @@ if(isset($_POST['submit']))
       </div>
       <!-- /.main-wrapper -->
 
-      <!-- ========== COMMON JS FILES ========== -->
       <script src="js/jquery/jquery-2.2.4.min.js"></script>
       <script src="js/jquery-ui/jquery-ui.min.js"></script>
       <script src="js/bootstrap/bootstrap.min.js"></script>
@@ -187,14 +160,11 @@ if(isset($_POST['submit']))
       <script src="js/lobipanel/lobipanel.min.js"></script>
       <script src="js/iscroll/iscroll.js"></script>
 
-      <!-- ========== PAGE JS FILES ========== -->
       <script src="js/prism/prism.js"></script>
 
-      <!-- ========== THEME JS ========== -->
       <script src="js/main.js"></script>
 
 
 
-      <!-- ========== ADD custom.js FILE BELOW WITH YOUR CHANGES ========== -->
     </body>
     </html>
