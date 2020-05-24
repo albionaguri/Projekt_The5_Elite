@@ -3,77 +3,54 @@
 
 
 <?php
-      if(isset($_POST['Submit'])){
+if(isset($_POST['Submit'])){
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $role = $_POST['role'];
-
-        if (empty($username) || empty($password)){
-            $_SESSION["ErrorMessage"] = "All fields must be filled out!";
-        }
-        else{
-
-        if($role == "Student"){
-          $query = "SELECT * FROM tblstudents WHERE StudentName='$username' AND
-                  Student_pwd='$password' ";
-
-          $result  = mysqli_query($con, $query);
-          $check_login_query = mysqli_num_rows($result);
-
-          if($check_login_query == 1){
-            $row = mysqli_fetch_array($result);
-            $username = $row['StudentName'];
-            $password= $row["Student_pwd"];
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-            header("location: student_profile.php");
-           }
-           else{
-              $_SESSION["ErrorMessage"] = "Username or Password incorrect";
-           }
-         }
+  $username = $_POST['username'];
+  $password = md5($_POST['password']);
+  $role = $_POST["role"];
 
 
-        else if($role == "Teacher"){
-          $query = "SELECT * FROM tblteachers WHERE Firstname='$username' AND
-                  Password='$password' ";
+  if (empty($username) || empty($password) || empty($role)){
+    $_SESSION["ErrorMessage"] = "All fields must be filled out!";
+  }
+  elseif(strlen($password) < 5){
+    $_SESSION["ErrorMessage"] = "Password length must be greater than 5";
+  }
 
-          $result  = mysqli_query($con, $query);
-          $check_login_query = mysqli_num_rows($result);
+  else{
+    $query = "SELECT * FROM users WHERE username='$username' AND
+    password='$password' AND role = '$role' ";
 
-          if($check_login_query == 1){
-            $row = mysqli_fetch_array($result);
-            $username = $row['Firstname'];
-            $password= $row["Password"];
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-            header("location: teacher_profile.php");
-           }
-           else{
-              $_SESSION["ErrorMessage"] = "Username or Password incorrect";
-           }
-        }
+    $result  = mysqli_query($con, $query);
+    $row = mysqli_fetch_array($result);
+    $username = $row["username"];
+    $password = $row["password"];
+    $role = $row["role"];
+    $check_login_query = mysqli_num_rows($result);
 
-        else if($role == "Admin"){
-          $query = "SELECT * FROM admin WHERE UserName='$username' AND
-                  Password='$password' ";
+    if($check_login_query == 1){
 
-          $result  = mysqli_query($con, $query);
-          $check_login_query = mysqli_num_rows($result);
+      if($row["role"] == 'Student'){
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        header("location: student_profile.php");
+      }
+      else if($row["role"] == 'Teacher'){
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        header("location: teacher_profile.php");
+      }
+      else if($row["role"] == 'Admin'){
+        $_SESSION['username'] = $username;
+        $_SESSION['password'] = $password;
+        header("location: dashboard.php");
+      }
+    }
+      else {
+        $_SESSION["ErrorMessage"] = "Data is incorrect!";
+      }
 
-          if($check_login_query == 1){
-            $row = mysqli_fetch_array($result);
-            $username = $row['UserName'];
-            $password= $row["Password"];
-            $_SESSION['username'] = $username;
-            $_SESSION['password'] = $password;
-            header("location: dashboard.php");
-           }
-           else{
-              $_SESSION["ErrorMessage"] = "Username or Password incorrect";
-           }
-         }
-   }
-}
+    }
+  }
+
 ?>
