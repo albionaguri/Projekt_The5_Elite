@@ -18,17 +18,9 @@ if(isset($_POST['submit']))
     exit;
   }
 
-  elseif(!empty($classnamenumeric) && (!empty($section))){
-    if($section == $row["Section"] && $classnamenumeric == $row["ClassNameNumeric"]){
-      $_SESSION["ErrorMessage"] = "This Class already exists";
-      header("location: create-class.php");
-      exit;
-    }
-  }
-
 
   $sql = "SELECT * FROM tblclasses WHERE ClassName = '$classname' AND ClassNameNumeric =$classnamenumeric
-        AND Section = $section";
+        AND Section = '$section'";
   $res = mysqli_query($con, $sql);
   $nr = mysqli_num_rows($res);
   if ($nr == 1){
@@ -37,14 +29,11 @@ if(isset($_POST['submit']))
       exit;
   }
 
-
-  $sql = "INSERT INTO  tblclasses(ClassName,ClassNameNumeric,Section)
-  VALUES(?,?,?)";
-  $result = mysqli_prepare($con, $sql);
+  $sql1 = "INSERT INTO  tblclasses(ClassName,ClassNameNumeric,Section)
+  VALUES('$classname', $classnamenumeric, '$section')";
+  $result = mysqli_query($con, $sql1);
 
   if($result){
-    mysqli_stmt_bind_param($result,"sis",$classname,$classnamenumeric,$section);
-    mysqli_stmt_execute($result);
     $lastInsertId = mysqli_insert_id($con);
     $msg="Class Created successfully";
   }
