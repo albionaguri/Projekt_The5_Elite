@@ -90,8 +90,8 @@ include('includes/config.php');
                                 <th>#</th>
                                 <th>Student Name</th>
                                 <th>Class</th>
-                                <th>Section </th>
                                 <th>Marks </th>
+                                <th>Change </th>
                                 <th>Action</th>
                               </tr>
                             </thead>
@@ -100,15 +100,15 @@ include('includes/config.php');
                                 <th>#</th>
                                 <th>Student Name</th>
                                 <th>Class</th>
-                                <th>Section </th>
                                 <th>Marks </th>
+                                <th>Change </th>
                                 <th>Action</th>
                               </tr>
                             </tfoot>
                             <tbody>
                               <?php
                               $sql = "SELECT users.username, users.id,
-                              tblclasses.ClassName,tblclasses.Section, tblresult.marks
+                              tblclasses.ClassName, tblresult.marks
                               from tblclasses
                               join users
                               on tblclasses.id = users.ClassId
@@ -127,13 +127,16 @@ include('includes/config.php');
                                     <td><?php echo htmlentities($cnt);?></td>
                                     <td><?php echo htmlentities($row["username"]);?></td>
                                     <td><?php echo htmlentities($row["ClassName"]); ?>
-                                    <td> <?php echo htmlentities($row["Section"]);?> </td>
                                     <td> <?php echo htmlentities($row["marks"]);?> </td>
 
                                     <td>
                                       <a href="edit-result.php?stid=<?php echo htmlentities($row["id"]);?>">
                                         <i class="fa fa-edit" title="Edit Record">Edit</i> </a>
                                     </td>
+                                    <td>
+                                      <a href="delete-result.php?Delete=<?php echo $row['id']; ?>">  Delete </a>
+                                    </td>
+
                                     </tr>
                                       <?php $cnt=$cnt+1;}} ?>
                                     </tbody>
