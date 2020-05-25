@@ -3,7 +3,7 @@ include('includes/config.php');
 ?>
 <?php include('includes/functions.php'); ?>
 <?php include('includes/sessions.php'); ?>
-<?php echo Confirm_Login(); ?>
+<?php  Confirm_Login(); ?>
 
 
 <!DOCTYPE html>
@@ -37,14 +37,9 @@ include('includes/config.php');
             <div class="row page-title-div">
               <div class="col-sm-6">
                 <h2 class="title">Dashboard</h2>
-
               </div>
-              <!-- /.col-sm-6 -->
             </div>
-            <!-- /.row -->
-
           </div>
-          <!-- /.container-fluid -->
 
           <section class="section">
             <div class="container-fluid">
@@ -52,7 +47,7 @@ include('includes/config.php');
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                   <a class="dashboard-stat bg-primary" href="manage-students.php">
                     <?php
-                    $sql1 ="SELECT StudentId from tblstudents ";
+                    $sql1 ="SELECT id from users where role = 'Student'";
                     $result1 = mysqli_query($con,$sql1);
                     $row=mysqli_fetch_array($result1);
                     $totalstudents=mysqli_num_rows($result1);
@@ -95,7 +90,7 @@ include('includes/config.php');
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                   <a class="dashboard-stat bg-success" href="manage-results.php">
                     <?php
-                    $sql4="SELECT  distinct StudentId from  tblresult ";
+                    $sql4="SELECT  StudentId FROM  tblresult ";
                     $result4 = mysqli_query($con,$sql4);
                     $row=mysqli_fetch_array($result4);
                     $totalresults=mysqli_num_rows($result4);
@@ -109,10 +104,11 @@ include('includes/config.php');
               </div>
             </div>
           </section>
+
           <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <a class="dashboard-stat bg-primary" href="manage-teachers.php">
               <?php
-              $sql5 ="SELECT TeacherID from tblteachers ";
+              $sql5 ="SELECT id from users where role = 'Teacher' ";
               $result5 = mysqli_query($con,$sql5);
               $row=mysqli_fetch_array($result5);
               $totalteachers=mysqli_num_rows($result5);
@@ -127,14 +123,9 @@ include('includes/config.php');
         </div>
 
       </div>
-      <!-- /.content-container -->
     </div>
-    <!-- /.content-wrapper -->
-
   </div>
-  <!-- /.main-wrapper -->
 
-  <!-- ========== COMMON JS FILES ========== -->
   <script src="js/jquery/jquery-2.2.4.min.js"></script>
   <script src="js/jquery-ui/jquery-ui.min.js"></script>
   <script src="js/bootstrap/bootstrap.min.js"></script>
@@ -142,7 +133,6 @@ include('includes/config.php');
   <script src="js/lobipanel/lobipanel.min.js"></script>
   <script src="js/iscroll/iscroll.js"></script>
 
-  <!-- ========== PAGE JS FILES ========== -->
   <script src="js/prism/prism.js"></script>
   <script src="js/waypoint/waypoints.min.js"></script>
   <script src="js/counterUp/jquery.counterup.min.js"></script>
@@ -154,11 +144,11 @@ include('includes/config.php');
   <script src="js/toastr/toastr.min.js"></script>
   <script src="js/icheck/icheck.min.js"></script>
 
-  <!-- ========== THEME JS ========== -->
   <script src="js/main.js"></script>
   <script src="js/production-chart.js"></script>
   <script src="js/traffic-chart.js"></script>
   <script src="js/task-list.js"></script>
+
   <script>
   $(function(){
 
